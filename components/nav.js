@@ -1,28 +1,26 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
 
 const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`
-  return link
-})
+  { src: "/metamask", label: "1 sposób - MetaMask" },
+  { src: "/brave", label: "2 sposób - Brave" }
+];
 
 const Nav = () => (
   <nav>
-    <ul>
-      <li>
-        <Link href="/">
-          <a>Home</a>
+    <div>
+      <Link href="/">
+        <a>Strona główna</a>
+      </Link>
+    </div>
+    <div>Dodaj swoją wiadomość na jeden z poniższych sposobów</div>
+    <div>
+      {links.map(({ src, label }) => (
+        <Link href={src} key={src + label}>
+          <a>{label}</a>
         </Link>
-      </li>
-      {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
-        </li>
       ))}
-    </ul>
+    </div>
 
     <style jsx>{`
       :global(body) {
@@ -32,25 +30,20 @@ const Nav = () => (
       }
       nav {
         text-align: center;
-      }
-      ul {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
       }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
+      div {
+        margin: 8px;
       }
       a {
         color: #067df7;
         text-decoration: none;
         font-size: 13px;
+        padding: 0 8px;
       }
     `}</style>
   </nav>
-)
+);
 
-export default Nav
+export default Nav;
