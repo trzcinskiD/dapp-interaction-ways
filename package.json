@@ -1,6 +1,7 @@
 {
   "name": "dapp-interaction-ways",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,8 +9,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@truffle/hdwallet-provider": "^1.0.28",
+    "fs-extra": "^8.1.0",
+    "ganache-cli": "^6.7.0",
+    "mocha": "^6.2.2",
     "next": "9.1.6",
     "react": "16.12.0",
-    "react-dom": "16.12.0"
+    "react-dom": "16.12.0",
+    "solc": "^0.6.0",
+    "web3": "^1.2.4"
   }
 }
