@@ -3,7 +3,8 @@ import Link from "next/link";
 
 const links = [
   { src: "/metamask", label: "1 sposób - MetaMask" },
-  { src: "/brave", label: "2 sposób - Brave" }
+  { src: "/brave", label: "2 sposób - Brave" },
+  { src: "/backend", label: "3 sposób - Backend" }
 ];
 
 const Nav = () => (

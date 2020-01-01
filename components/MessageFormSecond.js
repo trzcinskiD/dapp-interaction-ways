@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import newsInbox from "../ethereum/newsInbox";
 import web3 from "../ethereum/web3";
+import { Transaction } from "ethereumjs-tx";
 
 export class MessageForm extends Component {
   state = {
@@ -26,10 +27,38 @@ export class MessageForm extends Component {
     this.setState({ loading: true, errorMessage: "", successMessage: "" });
     this.timer();
     try {
-      const accounts = await web3.eth.getAccounts();
-      await newsInbox.methods.addMessage(this.state.value).send({
-        from: accounts[0]
-      });
+      const addMessageAbi = newsInbox.methods
+        .addMessage(this.state.value)
+        .encodeABI();
+      console.log("addMessageAbi", addMessageAbi);
+      let nonce = await web3.eth.getTransactionCount(
+        "0x7382cda4162b587046caaadb751f6a16e5dd4d84"
+      );
+      console.log("nonce", nonce);
+
+      let txParams = {
+        nonce: nonce,
+        gasPrice: 80 * 100000000,
+        gas: 1000000,
+        to: "0xa4c3FE660E474a85F56eD636DE71D55393d48064",
+        data: addMessageAbi
+      };
+      console.log("txParams", txParams);
+      const transaction = new Transaction(txParams, { chain: "rinkeby" });
+      console.log("transaction", transaction);
+      transaction.sign(
+        Buffer.from(
+          "B864B1BF5A5310F113752EBF34EFC275C29A6EA2480173ADE4C3BE137B6DF53F",
+          "hex"
+        )
+      );
+      console.log("transaction after sign", transaction);
+      const serializedTransaction = transaction.serialize();
+      console.log("serializedTransaction", serializedTransaction);
+      const result = await web3.eth.sendSignedTransaction(
+        "0x" + serializedTransaction.toString("hex")
+      );
+      console.log("result", result);
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
