@@ -7,11 +7,24 @@ export class MessageForm extends Component {
     value: "",
     errorMessage: "",
     successMessage: "",
-    loading: false
+    loading: false,
+    time: 0
   };
+
+  timer = () => {
+    const interval = setInterval(() => {
+      this.setState({ time: this.state.time + 1 });
+      if (!this.state.loading) {
+        clearInterval(interval);
+        this.setState({ time: 0 });
+      }
+    }, 1000);
+  };
+
   onSubmit = async e => {
     e.preventDefault();
     this.setState({ loading: true, errorMessage: "", successMessage: "" });
+    this.timer();
     try {
       const accounts = await web3.eth.getAccounts();
       await newsInbox.methods.addMessage(this.state.value).send({
@@ -23,7 +36,7 @@ export class MessageForm extends Component {
     this.setState({ loading: false, value: "", successMessage: "Sukces!" });
   };
   render() {
-    const { successMessage, errorMessage, value, loading } = this.state;
+    const { successMessage, errorMessage, value, loading, time } = this.state;
     return (
       <>
         <form>
@@ -34,7 +47,7 @@ export class MessageForm extends Component {
               onChange={e => this.setState({ value: e.target.value })}
             />
             <button onClick={this.onSubmit} disabled={loading}>
-              {loading ? "W trakcie..." : "Dodaj"}
+              {loading ? `${time}s..` : "Dodaj"}
             </button>
           </div>
           <div>

@@ -7,7 +7,7 @@ const NewsTable = ({ columns, data }) => {
         <thead>
           <tr>
             {columns.map(column => (
-              <th>{column}</th>
+              <th key={column}>{column}</th>
             ))}
           </tr>
         </thead>
