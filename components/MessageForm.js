@@ -43,7 +43,7 @@ export class MessageForm extends Component {
           <div>
             <input
               value={value}
-              size={80}
+              size={60}
               onChange={e => this.setState({ value: e.target.value })}
             />
             <button onClick={this.onSubmit} disabled={loading}>

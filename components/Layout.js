@@ -11,9 +11,10 @@ const Layout = props => (
     {props.children}
     <style jsx global>{`
       body {
-        margin: 0;
+        margin: 0 auto;
         font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
           Helvetica, sans-serif;
+        max-width: 720px;
       }
       a {
         color: #067df7;
