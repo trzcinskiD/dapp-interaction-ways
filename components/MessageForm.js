@@ -14,7 +14,6 @@ export class MessageForm extends Component {
     this.setState({ loading: true, errorMessage: "", successMessage: "" });
     try {
       const accounts = await web3.eth.getAccounts();
-      console.log(accounts[0], this.state.value);
       await newsInbox.methods.addMessage(this.state.value).send({
         from: accounts[0]
       });
