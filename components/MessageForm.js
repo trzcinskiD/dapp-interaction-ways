@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import newsInbox from "../ethereum/newsInbox";
 import web3 from "../ethereum/web3";
+import backendTxSign from "../ethereum/backendTxSign";
 
 export class MessageForm extends Component {
   state = {
@@ -26,10 +27,14 @@ export class MessageForm extends Component {
     this.setState({ loading: true, errorMessage: "", successMessage: "" });
     this.timer();
     try {
-      const accounts = await web3.eth.getAccounts();
-      await newsInbox.methods.addMessage(this.state.value).send({
-        from: accounts[0]
-      });
+      if (this.props.backendTxSign) {
+        await backendTxSign(this.state.value);
+      } else {
+        const accounts = await web3.eth.getAccounts();
+        await newsInbox.methods.addMessage(this.state.value).send({
+          from: accounts[0]
+        });
+      }
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }

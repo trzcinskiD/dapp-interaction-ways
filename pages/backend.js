@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../components/Layout";
-import MessageFormSecond from "../components/MessageFormSecond";
+import MessageForm from "../components/MessageForm";
 
 const Backend = () => {
   return (
@@ -14,7 +14,7 @@ const Backend = () => {
         pomocniczego. Użytkownik nie musi nawet wiedzieć, że korzysta ze
         zdecentralizowanej aplikacji.
       </p>
-      <MessageFormSecond />
+      <MessageForm backendTxSign={true} />
       <style jsx>{`
         .title {
           margin: 0;
