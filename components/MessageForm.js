@@ -9,7 +9,8 @@ export class MessageForm extends Component {
     errorMessage: "",
     successMessage: "",
     loading: false,
-    time: 0
+    time: 0,
+    txHash: ""
   };
 
   timer = () => {
@@ -28,12 +29,16 @@ export class MessageForm extends Component {
     this.timer();
     try {
       if (this.props.backendTxSign) {
-        await backendTxSign(this.state.value);
+        const receipt = await backendTxSign(this.state.value);
+        this.setState({ txHash: receipt.transactionHash });
       } else {
         const accounts = await web3.eth.getAccounts();
-        await newsInbox.methods.addMessage(this.state.value).send({
-          from: accounts[0]
-        });
+        const receipt = await newsInbox.methods
+          .addMessage(this.state.value)
+          .send({
+            from: accounts[0]
+          });
+        this.setState({ txHash: receipt.transactionHash });
       }
     } catch (err) {
       this.setState({ errorMessage: err.message });
@@ -41,8 +46,24 @@ export class MessageForm extends Component {
     this.setState({ loading: false, value: "", successMessage: "Sukces!" });
   };
 
+  renderResult = () => {
+    const { successMessage, errorMessage, txHash } = this.state;
+    if (errorMessage) {
+      return <p>{errorMessage}</p>;
+    } else if (successMessage) {
+      return (
+        <p>
+          {successMessage}{" "}
+          <a href={`https://rinkeby.etherscan.io/tx/${txHash}`}>
+            Przejdź do szczegółów transakcji
+          </a>
+        </p>
+      );
+    }
+  };
+
   render() {
-    const { successMessage, errorMessage, value, loading, time } = this.state;
+    const { value, loading, time } = this.state;
     return (
       <>
         <form>
@@ -62,7 +83,7 @@ export class MessageForm extends Component {
                 ? "Transakcja czeka na weryfikację w blockchain... Możesz opuścić stronę lub poczekać na potwierdzenie."
                 : ""}
             </p>
-            <p>{errorMessage ? errorMessage : successMessage}</p>
+            {this.renderResult()}
           </div>
         </form>
         <style jsx>{`
@@ -71,6 +92,7 @@ export class MessageForm extends Component {
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
           }
           input {
             border: solid;
