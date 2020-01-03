@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.0.28",
+    "dotenv": "^8.2.0",
     "ethereumjs-tx": "^2.1.2",
     "fs-extra": "^8.1.0",
     "ganache-cli": "^6.7.0",
