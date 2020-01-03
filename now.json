@@ -1,0 +1,10 @@
+{
+  "build": {
+    "env": {
+      "ETH_ADDRESS": "@eth-address",
+      "CONTRACT_ADDRESS": "@contract-address",
+      "PRIVATE_KEY": "@private-key",
+      "HOST": "@host"
+    }
+  }
+}
