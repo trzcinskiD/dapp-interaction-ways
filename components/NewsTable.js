@@ -12,9 +12,9 @@ const NewsTable = ({ columns, data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map(row => {
+          {data.map((row, i) => {
             return (
-              <tr key={row.sender + row.content}>
+              <tr key={row.sender + row.content + i}>
                 <td>{row.sender}</td>
                 <td>{row.content}</td>
               </tr>
