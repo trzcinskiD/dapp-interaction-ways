@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 const links = [
-  { src: "/metamask", label: "1 sposób - MetaMask" },
+  { src: "/metaMask", label: "1 sposób - MetaMask" },
   { src: "/brave", label: "2 sposób - Brave" },
   { src: "/backend", label: "3 sposób - Backend" },
   { src: "/pk", label: "4 sposób - Klucz prywatny" }
