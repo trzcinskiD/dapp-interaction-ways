@@ -1,6 +1,7 @@
 {
   "name": "dapp-interaction-ways",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "author": "trzcinskid",
   "license": "MIT",
   "private": true,
   "scripts": {
