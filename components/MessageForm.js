@@ -26,16 +26,15 @@ export class MessageForm extends Component {
   };
 
   onSubmit = async e => {
-    const { backendTxSign, pkTxSign } = this.props;
     const { value, pk } = this.state;
     e.preventDefault();
     this.setState({ loading: true, errorMessage: "", successMessage: "" });
     this.timer();
     try {
-      if (backendTxSign) {
+      if (this.props.backendTxSign) {
         const receipt = await backendTxSign(value);
         this.setState({ txHash: receipt.transactionHash });
-      } else if (pkTxSign) {
+      } else if (this.props.pkTxSign) {
         const receipt = await privateKeyTxSign(value, pk);
         this.setState({ txHash: receipt.transactionHash });
       } else {
