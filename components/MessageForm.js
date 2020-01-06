@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import newsInbox from "../ethereum/newsInbox";
 import web3 from "../ethereum/web3";
 import backendTxSign from "../ethereum/backendTxSign";
+import privateKeyTxSign from "../ethereum/privateKeyTxSign";
 
 export class MessageForm extends Component {
   state = {
@@ -10,7 +11,8 @@ export class MessageForm extends Component {
     successMessage: "",
     loading: false,
     time: 0,
-    txHash: ""
+    txHash: "",
+    pk: ""
   };
 
   timer = () => {
@@ -24,20 +26,23 @@ export class MessageForm extends Component {
   };
 
   onSubmit = async e => {
+    const { backendTxSign, pkTxSign } = this.props;
+    const { value, pk } = this.state;
     e.preventDefault();
     this.setState({ loading: true, errorMessage: "", successMessage: "" });
     this.timer();
     try {
-      if (this.props.backendTxSign) {
-        const receipt = await backendTxSign(this.state.value);
+      if (backendTxSign) {
+        const receipt = await backendTxSign(value);
+        this.setState({ txHash: receipt.transactionHash });
+      } else if (pkTxSign) {
+        const receipt = await privateKeyTxSign(value, pk);
         this.setState({ txHash: receipt.transactionHash });
       } else {
         const accounts = await web3.eth.getAccounts();
-        const receipt = await newsInbox.methods
-          .addMessage(this.state.value)
-          .send({
-            from: accounts[0]
-          });
+        const receipt = await newsInbox.methods.addMessage(value).send({
+          from: accounts[0]
+        });
         this.setState({ txHash: receipt.transactionHash });
       }
     } catch (err) {
@@ -63,16 +68,27 @@ export class MessageForm extends Component {
   };
 
   render() {
-    const { value, loading, time } = this.state;
+    const { value, loading, time, pk } = this.state;
     return (
       <>
         <form>
           <div>
             <input
+              type="text"
               value={value}
               size={60}
+              placeholder={"Wpisz swoją wiadomość"}
               onChange={e => this.setState({ value: e.target.value })}
             />
+            {this.props.pkTxSign && (
+              <input
+                type="password"
+                value={pk}
+                required
+                placeholder={"Podaj klucz prywatny"}
+                onChange={e => this.setState({ pk: e.target.value })}
+              />
+            )}
             <button onClick={this.onSubmit} disabled={loading}>
               {loading ? `${time}s..` : "Dodaj"}
             </button>

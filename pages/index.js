@@ -50,6 +50,7 @@ class Home extends Component {
             display: flex;
             justify-content: center;
             margin-top: 32px;
+            margin-bottom: 32px;
           }
           .title {
             margin: 0;
