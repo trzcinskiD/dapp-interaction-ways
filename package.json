@@ -1,6 +1,6 @@
 {
   "name": "dapp-interaction-ways",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "trzcinskid",
   "license": "MIT",
   "private": true,
@@ -18,7 +18,7 @@
     "fs-extra": "^8.1.0",
     "ganache-cli": "^6.7.0",
     "mocha": "^6.2.2",
-    "next": "9.1.6",
+    "next": "9.3.2",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "solc": "^0.6.0",
